@@ -7,40 +7,43 @@
 <body>
     <h1 class="heading">[cryptowatch]</h1>
     <h2 class="heading">└---<('Hi, cryptowatch here!')</h2>
-    <table>
-        <thead>
-            <tr>
-                <th colspan="3">BTC exchange rate</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:if="${data.empty}">
-                <td colspan="2"> No Data Available </td>
-            </tr>
-            <tr th:each="d : ${data}">
-                <td><span th:text="${d.timestamp}">Timestamp</span></td>
-                <td><span th:text="${d.currency}">Currency</span></td>
-                <td><span th:text="${d.rate}">Rate</span></td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="chart_div" align="center"></div>
 </body>
 </html>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" th:inline="javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        let data = new google.visualization.DataTable();
+        data.addColumn('string', 'Day');
+        data.addColumn('number', 'Rate');
+        data.addRows([[${data}]]);
+
+        let options = {
+            title: 'BTC exchange rate',
+            width: 1200,
+            height: 500,
+            hAxis: {
+                title: 'Timeline'
+            },
+            vAxis: {
+                title: 'Rate'
+            }
+        };
+
+        let chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
 <style>
+    #chart_div {
+        display: block;
+        margin: 0 auto;
+        width: 1200px;
+        height: 500px;
+    }
     .heading {
         text-align: center;
-    }
-    table, th, td {
-        border: 1px solid;
-    }
-    table {
-        border-collapse: collapse;
-        width: 30vh;
-        margin-top: 40px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    th, td {
-        padding: 18px;
     }
 </style>
