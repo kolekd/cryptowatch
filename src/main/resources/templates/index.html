@@ -6,7 +6,11 @@
 </head>
 <body>
     <h1 class="heading">[cryptowatch]</h1>
-    <h2 class="heading">└---<('Hi, cryptowatch here!')</h2>
+    <h2 class="heading">              └---<('Hi, cryptowatch here!')</h2>
+    <form th:action="@{/}">
+        <input type="text" th:name="participant"/>
+        <input type="submit"/>
+    </form>
     <div id="chart_div" align="center"></div>
 </body>
 </html>
