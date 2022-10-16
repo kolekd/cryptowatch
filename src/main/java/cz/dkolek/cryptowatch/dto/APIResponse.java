@@ -9,6 +9,6 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ERHostResponseDTO {
+public class APIResponse {
    private Map<String, Map<String, Double>> rates;
 }

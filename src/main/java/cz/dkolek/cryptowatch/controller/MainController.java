@@ -1,6 +1,8 @@
 package cz.dkolek.cryptowatch.controller;
 
+import cz.dkolek.cryptowatch.enums.ConversionCurrencyEnum;
 import cz.dkolek.cryptowatch.dto.DisplayDTO;
+import cz.dkolek.cryptowatch.exception.APIException;
 import cz.dkolek.cryptowatch.service.MainService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,8 @@ public class MainController {
    }
 
    @GetMapping("/index")
-   public String index(@RequestParam(value = "currency", required = false) String currency, Model model) {
-      DisplayDTO displayDTO = mainService.callApi(currency);
-      // TODO: Mock data used for testing to avoid getting locked out of API
-//      DisplayDTO displayDTO = mainService.getMockData(currency);
+   public String index(@RequestParam(value = "currency", required = false) ConversionCurrencyEnum currency, Model model) throws APIException {
+      DisplayDTO displayDTO = mainService.getExchangeRates(currency);
       model.addAttribute("data", displayDTO);
       return "index";
    }

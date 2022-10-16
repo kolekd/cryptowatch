@@ -2,18 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="#{template.heading}">[cryptowatch]</title>
 </head>
 <body>
-    <h1 class="center">[cryptowatch]</h1>
-    <h2 class="center">              └---<('Hi, cryptowatch here!')</h2>
+    <h1 class="center" th:text="#{template.heading}">[cryptowatch]</h1>
     <form th:action="@{/index}" class="center">
         <select th:name="currency">
-            <option value="EUR">EUR</option>
-            <option value="USD">USD</option>
-            <option value="CZK">CZK</option>
+            <option value="EUR" th:text="#{template.currency_selection.eur}">EUR</option>
+            <option value="USD" th:text="#{template.currency_selection.usd}">USD</option>
+            <option value="CZK" th:text="#{template.currency_selection.czk}">CZK</option>
         </select>
-        <button type="submit">Submit</button>
+        <button type="submit" th:text="#{template.submit_button_text}">Submit</button>
     </form>
     <div id="chart_div" align="center"></div>
 </body>
@@ -24,19 +23,19 @@
     google.charts.setOnLoadCallback(drawChart);
     function drawChart() {
         let data = new google.visualization.DataTable();
-        data.addColumn('string', 'Day');
-        data.addColumn('number', 'Rate');
+        data.addColumn('string', [[#{template.chart.day}]]);
+        data.addColumn('number', [[#{template.chart.rate}]]);
         data.addRows([[${data.dataList}]]);
 
         let options = {
-            title: 'BTC exchange rate',
+            title: [[#{template.chart.title}]],
             width: 1200,
             height: 500,
             hAxis: {
-                title: 'Timeline'
+                title: [[#{template.chart.timeline}]]
             },
             vAxis: {
-                title: 'Rate',
+                title: [[#{template.chart.rate}]],
                 format: '#,### ' + [[${data.currency}]]
             }
         };
