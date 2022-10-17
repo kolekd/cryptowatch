@@ -77,20 +77,20 @@ public class MainService {
               params
       );
 
-      if (response.getStatusCode().equals(HttpStatus.OK)) {
-         log.info("MainService.getExchangeRates - Request successful");
-         if (response.getBody() != null) {
-            return response.getBody();
-         } else {
-            String errorMsg = messageSource.getMessage("error.api.response_body_null", new Object[]{ response }, Locale.ENGLISH);
-            log.error("MainService.getExchangeRates - " + errorMsg);
-            throw new APIException(errorMsg);
-         }
-      } else {
+      if (!response.getStatusCode().equals(HttpStatus.OK)) {
          String errorMsg = messageSource.getMessage("error.api.request_unsuccessful", new Object[]{ url , response.getStatusCode(), response }, Locale.ENGLISH);
          log.error("MainService.getExchangeRates - " + errorMsg);
          throw new APIException(errorMsg);
       }
+
+      if (response.getBody() == null) {
+         String errorMsg = messageSource.getMessage("error.api.response_body_null", new Object[]{ response }, Locale.ENGLISH);
+         log.error("MainService.getExchangeRates - " + errorMsg);
+         throw new APIException(errorMsg);
+      }
+
+      log.info("MainService.getExchangeRates - Request successful");
+      return response.getBody();
    }
 
    private DisplayDTO buildDisplayDTOFromResponse(APIResponse responseDTO, String currency) {
